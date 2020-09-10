@@ -23,7 +23,7 @@ class DataLoader:
         
         return glob.glob(f'{directory}/' + f'{pattern}' + '*.tif')
 
-    def load_and_resize_images(im_list, shape, dims):
+    def load_and_resize_images(self, im_list, shape, dims):
         """
         Resize images and place inside a library for ML tasks.  im_list depends on using load_list prior 
         to executing the method.
@@ -39,7 +39,7 @@ class DataLoader:
             
         return img_array
     
-    def load_and_resize_dsm(im_list, shape, dims=1):
+    def load_and_resize_dsm(self, im_list, shape, dims=1):
         """
         Resize images and place inside a library for ML tasks.  im_list depends on using load_list prior 
         to executing the method.
@@ -55,7 +55,7 @@ class DataLoader:
 
         return np.squeeze(dsm_array,-1)
     
-    def load_and_resize_rgb_labels(rgb_list, shape, dims):
+    def load_and_resize_rgb_labels(self, rgb_list, shape, dims):
         """
         Resize rgb images of labels and place inside a library for ML tasks.  rgb_list depends on using load_list prior 
         to executing the method.  For now the number of classes is fixed at 6 for this dataset.  Figure out a better method
