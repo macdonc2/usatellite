@@ -13,6 +13,11 @@ class TopHatFilter:
         self.filter_size = filter_size
 
     def apply(self, dsm_array):
+
+        """
+        This method applies the top hat filter to the dsm_array.
+        """
+
         filt_size = (self.filter_size, self.filter_size)
         kernel = cv2.getStructuringElement(cv2.MORPH_RECT, filt_size) 
             
