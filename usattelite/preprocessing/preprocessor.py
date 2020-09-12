@@ -2,23 +2,20 @@ import numpy as np
 import cv2
 
 
-class TopHatFilter:
+class Preprocess:
 
     """
     This is a class to define and apply a top hat filter using cv2.  The user specifies a filter size when instantiating
     a TopHatFilter object.  The object then has the apply method, which takes a dsm_array to be filtered.
     """
 
-    def __init__(self, filter_size):
-        self.filter_size = filter_size
-
-    def apply(self, dsm_array):
+    def top_hat_filter(self, dsm_array, filter_size):
 
         """
         This method applies the top hat filter to the dsm_array.
         """
 
-        filt_size = (self.filter_size, self.filter_size)
+        filt_size = (filter_size, filter_size)
         kernel = cv2.getStructuringElement(cv2.MORPH_RECT, filt_size) 
             
         top_hat_array = np.zeros_like(dsm_array)
