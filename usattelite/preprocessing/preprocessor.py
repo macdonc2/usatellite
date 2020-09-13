@@ -38,7 +38,7 @@ class Preprocess:
         
         normalized_data = data
 
-        for i in range(np.shape(data)):
+        for i in range(np.shape(data)[-1]):
             normalized_data -= np.mean(normalized_data[:,:,:,i])
             normalized_data /= np.std(normalized_data)
         
