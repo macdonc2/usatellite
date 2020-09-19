@@ -107,7 +107,7 @@ class Unet2d:
         u9 = Dropout(self._dropout)(u9)
         c9 = self.conv2d_block(u9, self._n_filters*1)
 
-        outputs = Conv2D(5, (1, 1), activation='sigmoid') (c9)
+        outputs = Conv2D(6, (1, 1), activation='sigmoid') (c9)
         model = Model(inputs=[self._input_img], outputs=[outputs])
 
         return model
