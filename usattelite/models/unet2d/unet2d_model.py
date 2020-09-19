@@ -37,7 +37,9 @@ class Unet2d:
     def conv2d_block(self, input_tensor, n_filters):
 
         '''
-        This allows the user to specify aspect of the
+        This allows the user to simplify how blocks of convolutional layers are used.  A typical convolutional layer has 
+        3 convolutional blocks.  Who knows?  Who doesn't?  Works well.  Most agruments that users can control are in 
+        the class initilization.
         '''
 
         # first layer
@@ -66,6 +68,11 @@ class Unet2d:
 
 
     def get_unet(self):
+
+        """
+        Construct a UNet with a predefined architecture.  In the future, the user should be allowed to specify the
+        image input and output sizes as well as number of layers.  
+        """
 
         # contracting path
         c1 = self.conv2d_block(self._input_img, self._n_filters*1)
