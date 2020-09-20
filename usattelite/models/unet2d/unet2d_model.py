@@ -12,14 +12,14 @@ from loss.loss_metrics import Loss
 
 class Unet2d:
 
-    '''
+    """
     Constructs a unet using 2D convolutional filters.  Args are: 
     n_filters: number of filters at first layer.
     kernel_size: convolutional kernel size.
     l2_lambda: optional l2 kernel regularizer weight.  Only l2 regularization for now.
     bathnorm: whether you want to standardize batches.
     dropout: dropout rate to prevent overfitting.  This is probably more important as number of feature maps increases.
-    '''
+    """
 
     def __init__(self, input_img, n_filters=32, kernel_size=3, l2_lambda=0, batchnorm=True, dropout=0.5):
 
@@ -29,10 +29,10 @@ class Unet2d:
         self._l2_lambda = l2_lambda
         self._batchnorm = batchnorm
         self._dropout = dropout
-        self.model = self.get_unet()
+        #self._model = self.get_unet()
 
-        self.model.compile(optimizer=Adam(), loss='categorical_crossentropy', metrics=["categorical_accuracy", Loss.f1])
-        self.model.summary()
+        #self._model.compile(optimizer=Adam(), loss='categorical_crossentropy', metrics=["categorical_accuracy", Loss.f1])
+        #self._model.summary()
 
     def conv2d_block(self, input_tensor, n_filters):
 
@@ -115,7 +115,17 @@ class Unet2d:
         c9 = self.conv2d_block(u9, self._n_filters*1)
 
         outputs = Conv2D(6, (1, 1), activation='sigmoid') (c9)
-        model = Model(inputs=[self._input_img], outputs=[outputs])
+        self._model = Model(inputs=[self._input_img], outputs=[outputs])
 
-        return model
+        return self._model
 
+    def callback_list(self,patience=10, verbose=1, factor=1, min_lr=0.00001, save_best_only=True,
+            save_weights_only=True):
+
+        callbacks = [
+        EarlyStopping(monitor='val_loss', patience=10, verbose=1),
+        ReduceLROnPlateau(factor=0.1, patience=5, min_lr=0.00001, verbose=1),
+        ModelCheckpoint('model-test-5.h5', verbose=1, save_best_only=True, save_weights_only=True)
+        ]
+
+        return callbacks
