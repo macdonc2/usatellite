@@ -126,7 +126,7 @@ class Unet2d:
             save_weights_only=True):
 
         callbacks = [
-        EarlyStopping(monitor='val_loss', patience=10, verbose=1),
+        EarlyStopping(monitor='val_loss', patience=20, verbose=1),
         ReduceLROnPlateau(factor=0.1, patience=5, min_lr=0.00001, verbose=1),
         ModelCheckpoint('model-test-5.h5', verbose=1, save_best_only=True, save_weights_only=True)
         ]
