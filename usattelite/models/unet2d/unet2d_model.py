@@ -8,6 +8,8 @@ from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint, ReduceLRO
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras import regularizers
 
+import tensorflow as tf
+
 import tensorflow.keras as k
 
 from loss.loss_metrics import Loss
@@ -128,13 +130,10 @@ class Unet2d:
         callbacks = [
         EarlyStopping(monitor='val_loss', patience=20, verbose=1),
         ReduceLROnPlateau(factor=0.1, patience=5, min_lr=0.00001, verbose=1),
-        ModelCheckpoint('model-test-5.h5', verbose=1, save_best_only=True, save_weights_only=True)
+        ModelCheckpoint('model-test-focal.h5', verbose=1, save_best_only=True, save_weights_only=True)
         ]
 
         return callbacks
-
-# updatable plot
-# a minimal example (sort of)
 
 class PlotLosses(k.callbacks.Callback):
 

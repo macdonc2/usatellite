@@ -1,6 +1,8 @@
 import numpy as np
 from tensorflow.keras import backend as K
 
+import tensorflow as tf
+
 class Loss:
 
     """
@@ -93,7 +95,7 @@ class Loss:
     def focal_loss(y_true, y_pred):
 
         """
-        Focal loss implementation taken from:
+        This Focal loss implementation was taken from:
 
         https://www.kdnuggets.com/2018/12/handling-imbalanced-datasets-deep-learning.html
 

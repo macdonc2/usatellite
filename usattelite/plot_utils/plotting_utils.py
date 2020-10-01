@@ -30,4 +30,4 @@ class SatPlotter:
         im1 = ax[1].imshow(val[ind], vmin=0, vmax=5)
         ax[1].set_title('Validation Image', fontsize=30)
         im2 = ax[2].imshow(result[ind], vmin=0, vmax=5)
-        ax[1].set_title('Classifiied Image', fontsize=30)
+        ax[2].set_title('Classified Image', fontsize=30)
