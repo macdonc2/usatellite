@@ -1,6 +1,8 @@
 import numpy as np
 from tensorflow.keras import backend as K
 
+import tensorflow as tf
+
 class Loss:
 
     """
@@ -93,9 +95,11 @@ class Loss:
     def focal_loss(y_true, y_pred):
 
         """
-        Focal loss implementation taken from:
+        This Focal loss implementation was taken from:
 
         https://www.kdnuggets.com/2018/12/handling-imbalanced-datasets-deep-learning.html
+
+        Added epsilon clipping to y_pred to avoid nans....
 
         The hope is that focal loss will help with extremely undersampled classes.  In this case there
         are some very small objects/classes that require a weighting scheme.
@@ -104,6 +108,8 @@ class Loss:
 
         gamma = 2.0 
         alpha = 0.25
+        epsilon = K.epsilon()
+        y_pred = K.clip(y_pred, epsilon, 1.0-epsilon)
         pt_1 = tf.where(tf.equal(y_true, 1), y_pred, tf.ones_like(y_pred))
         pt_0 = tf.where(tf.equal(y_true, 0), y_pred, tf.zeros_like(y_pred))
         return -K.sum(alpha * K.pow(1. - pt_1, gamma) * K.log(pt_1))-K.sum((1-alpha) * K.pow( pt_0, gamma) * K.log(1. - pt_0))
