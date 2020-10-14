@@ -113,3 +113,36 @@ class Loss:
         pt_1 = tf.where(tf.equal(y_true, 1), y_pred, tf.ones_like(y_pred))
         pt_0 = tf.where(tf.equal(y_true, 0), y_pred, tf.zeros_like(y_pred))
         return -K.sum(alpha * K.pow(1. - pt_1, gamma) * K.log(pt_1))-K.sum((1-alpha) * K.pow( pt_0, gamma) * K.log(1. - pt_0))
+
+    def weighted_categorical_crossentropy(y_true, y_pred):
+        """
+        Find source (browser crashed)  
+
+        A weighted version of keras.objectives.categorical_crossentropy
+        
+        Variables:
+            weights: numpy array of shape (C,) where C is the number of classes
+        
+        Usage:
+            weights = np.array([0.5,2,10]) # Class one at 0.5, class 2 twice the normal weights, class 3 10x.
+            loss = weighted_categorical_crossentropy(weights)
+            model.compile(loss=loss,optimizer='adam')
+        """
+    
+    
+        
+        weights = K.sum(y_true, axis=0)
+        weights = K.sum(weights,axis=(0,1))
+        weights = 1/weights
+        weights = weights/(K.max(weights))
+        y_true = K.cast_to_floatx(y_true)
+            
+        # scale predictions so that the class probas of each sample sum to 1
+        y_pred /= K.sum(y_pred, axis=-1, keepdims=True)
+        # clip to prevent NaN's and Inf's
+        y_pred = K.clip(y_pred, K.epsilon(), 1 - K.epsilon())
+        # calc
+        loss = y_true * K.log(y_pred) * weights
+        loss = -K.sum(loss, -1)
+            
+        return loss
