@@ -10,8 +10,7 @@ from tensorflow.keras import regularizers
 
 import matplotlib.pyplot as plt
 
-from loss.loss_metrics import f1
-
+from usattelite.loss.loss_metrics import f1
 import tensorflow as tf
 
 import tensorflow.keras as k
