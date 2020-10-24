@@ -10,8 +10,7 @@ from tensorflow.keras import regularizers
 
 import matplotlib.pyplot as plt
 
-from loss.loss_metrics import Loss
-
+from loss.loss_metrics import f1
 import tensorflow as tf
 
 import tensorflow.keras as k
@@ -215,7 +214,7 @@ class Unet2d:
             save_weights_only=True):
 
         callbacks = [
-        EarlyStopping(monitor=Loss.f1, mode='max', patience=20, verbose=1),
+        EarlyStopping(monitor=f1, mode='max', patience=20, verbose=1),
         ReduceLROnPlateau(factor=0.1, patience=5, min_lr=0.00001, verbose=1),
         ModelCheckpoint('model-test-focal.h5', verbose=1, save_best_only=True, save_weights_only=True)
         ]
