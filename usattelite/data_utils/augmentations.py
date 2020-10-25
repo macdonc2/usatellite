@@ -35,10 +35,12 @@ class Augmentor:
                     rot = np.random.randint(0,90)
                     auged_img = rotate(auged_img, angle=rot, preserve_range=True)
                     auged_label = rotate(auged_label, angle=rot, preserve_range=True)
+                    auged_label = np.where(auged_label>0.5,1,0)
 
                 if np.random.random()>=0.5:
                     auged_img = transform.warp(auged_img, AFT, order=1, preserve_range=True, mode='wrap')
                     auged_label = transform.warp(auged_label, AFT, order=1, preserve_range=True, mode='wrap')
+                    auged_label = np.where(auged_label>0.5,1,0)
 
                 ### Color augmentations are only applied to the images.
 
