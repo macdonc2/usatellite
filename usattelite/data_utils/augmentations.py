@@ -33,8 +33,8 @@ class Augmentor:
 
                 if np.random.random()>=0.5:
                     rot = np.random.randint(0,90)
-                    auged_img = rotate(auged_img, angle=rot)
-                    auged_label = rotate(auged_label, angle=rot)
+                    auged_img = rotate(auged_img, angle=rot, preserve_range=True)
+                    auged_label = rotate(auged_label, angle=rot, preserve_range=True)
 
                 if np.random.random()>=0.5:
                     auged_img = transform.warp(auged_img, AFT, order=1, preserve_range=True, mode='wrap')
