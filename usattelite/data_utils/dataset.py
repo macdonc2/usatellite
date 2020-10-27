@@ -8,6 +8,8 @@ from skimage.transform import resize # we're gonna do some rearranging
 import scipy # same
 from sklearn.preprocessing import OneHotEncoder
 from keras import utils
+from tensorflow.keras import backend as K
+
 
 
 class DataLoader:
@@ -100,5 +102,29 @@ class DataLoader:
 
 
         return onehot_label_array
+
+class TrainingUtils:
+
+    """
+    Set of useful functions for training neural networks.
+    """
+
+    def calc_weights(self, y_true):
+
+        """
+        User should pass in a collection of labels, preferably a large enough sample to 
+        be representative of the dataset.  The function will then return scalars to 
+        weight a loss function fo imbalanced classes.
+        """
+
+        weights = K.sum(y_true, axis=0)
+        weights = K.sum(weights,axis=(0,1))
+        weights = 1/weights
+        weights = weights/(K.max(weights))
+        weights += 1
+        weights = K.eval(weights).astype(np.float64)
+        
+        return (weights)
+                            
         
                         

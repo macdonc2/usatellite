@@ -165,7 +165,7 @@ def categorical_focal_loss(n_classes, alpha_val, gamma=2.):
 
     return categorical_focal_loss_fixed
 
-def weighted_categorical_crossentropy(y_true, y_pred):
+def weighted_categorical_crossentropy(weights):
     """
     Find source (browser crashed)  
 
@@ -180,20 +180,27 @@ def weighted_categorical_crossentropy(y_true, y_pred):
         model.compile(loss=loss,optimizer='adam')
     """
 
+    weights = K.variable(weights)
 
-    
-    weights = K.sum(y_true, axis=0)
-    weights = K.sum(weights,axis=(0,1))
-    weights = 1/weights
-    weights = weights/(K.max(weights))
-    y_true = K.cast_to_floatx(y_true)
-        
-    # scale predictions so that the class probas of each sample sum to 1
-    y_pred /= K.sum(y_pred, axis=-1, keepdims=True)
-    # clip to prevent NaN's and Inf's
-    y_pred = K.clip(y_pred, K.epsilon(), 1 - K.epsilon())
-    # calc
-    loss = y_true * K.log(y_pred) * weights
-    loss = -K.sum(loss, -1)
-        
-    return loss
+    def wcc(y_true, y_pred):
+
+        # Compute weights per batch
+        #weights = K.sum(y_true, axis=0)
+        #weights = K.sum(weights,axis=(0,1))
+        #weights = 1/weights
+        #weights = weights/(K.max(weights))
+        #weights += 1
+
+
+        # scale predictions so that the class probas of each sample sum to 1
+        y_pred /= K.sum(y_pred, axis=-1, keepdims=True)
+        # clip to prevent NaN's and Inf's
+        y_pred = K.clip(y_pred, K.epsilon(), 1 - K.epsilon())
+        # calc
+        loss = (y_true * K.log(y_pred))
+        loss = loss * weights
+        loss = -K.sum(loss, -1)
+
+        return loss
+
+    return wcc
